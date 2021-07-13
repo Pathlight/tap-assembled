@@ -1,0 +1,42 @@
+{
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+        "id": {
+            "type": ["null", "string"]
+        },
+        "import_id": {
+            "type": ["null", "string"]
+        },
+        "queue_external_ids": {
+            "type": ["null", "string"]
+        },
+        "name": {
+            "type": ["null", "string"]
+        },
+        "short_name": {
+            "type": ["null", "string"]
+        },
+        "value": {
+            "type": ["null", "string"]
+        },
+        "channels": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            } 
+        },
+        "productive": {
+            "type": ["null", "boolean"]
+        },
+        "timeoff": {
+            "type": ["null", "boolean"] 
+        },
+        "background_color": {
+            "type": ["null", "string"] 
+        },
+        "font_color": {
+            "type": ["null", "string"] 
+        }
+    }
+}

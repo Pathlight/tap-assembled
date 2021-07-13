@@ -1,0 +1,23 @@
+{
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+		"agent_import_id": {
+			"type": ["null", "string"]
+		},
+		"state": {
+			"type": ["null", "string"]
+		},
+		"platform": {
+			"type": ["null", "string"]
+		},
+		"start_time": {
+			"type": "string",
+			"format": "date-time" 
+		},
+		"end_time": {
+			"type": ["null", "string"],
+			"format": "date-time" 
+		}
+	}
+}
