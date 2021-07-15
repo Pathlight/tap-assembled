@@ -12,7 +12,6 @@ setup(
     install_requires=[
         # NB: Pin these to a more specific version for tap reliability
         "singer-python",
-        "requests",
         "tap-framework==0.0.4",
     ],
     entry_points="""
