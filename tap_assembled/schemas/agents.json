@@ -1,0 +1,45 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": ["null", "string"]
+        },
+        "import_id": {
+            "type": ["null", "string"]
+        },
+        "name": {
+            "type": ["null", "string"]
+        },
+        "email": {
+            "type": ["null", "string"]
+        },
+        "site": {
+            "type": ["null", "integer"]
+        },
+        "channels": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "teams": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            } 
+        },
+        "queues": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "skills": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            } 
+        }
+    }
+}
+
