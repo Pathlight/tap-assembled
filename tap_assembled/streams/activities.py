@@ -79,5 +79,6 @@ class ActivitiesStream(BaseStream):
 
         if len(data) > 0:
             with singer.metrics.record_counter(endpoint=table) as counter:
-                singer.write_record(table, data)
+                for obj in data:
+                    singer.write_records(table, [obj])
                 counter.increment(len(data))
