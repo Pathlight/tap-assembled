@@ -1,10 +1,11 @@
 from tap_framework.streams import BaseStream as base
-from tap_assembled.state import save_state
+from tap_assembled.state import save_state, incorporate
 
 import singer
 import singer.metrics
 import time
 import pytz
+import datetime
 
 LOGGER = singer.get_logger()
 
@@ -37,4 +38,10 @@ class BaseStream(base):
                     singer.write_records(table, [obj])
                     counter.increment()
 
-        save_state(self.state)
+                self.state = incorporate(
+                    self.state,
+                    self.TABLE,
+                    "last_record",
+                    datetime.datetime.now(pytz.utc).isoformat(),
+                )
+                save_state(self.state)

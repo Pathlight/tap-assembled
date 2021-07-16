@@ -6,7 +6,7 @@ import datetime
 import pytz
 import tap_assembled.cache
 from tap_assembled.config import get_config_start_date
-from tap_assembled.state import incorporate, save_state, get_last_record_value_for_table
+from tap_assembled.state import incorporate, save_state
 
 LOGGER = singer.get_logger()
 
@@ -62,5 +62,6 @@ class AgentStatesStream(BaseStream):
 
         if len(data) > 0:
             with singer.metrics.record_counter(endpoint=table) as counter:
-                singer.write_record(table, data)
+                for obj in data:
+                    singer.write_records(table, [obj])
                 counter.increment(len(data))
