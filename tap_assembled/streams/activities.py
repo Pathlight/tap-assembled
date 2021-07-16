@@ -56,6 +56,9 @@ class ActivitiesStream(BaseStream):
             activity["start_time"] = self.convert_timestamp_utc(activity["start_time"])
             activity["end_time"] = self.convert_timestamp_utc(activity["end_time"])
 
+            # remove some text (prefix and suffix) from the activity id
+            activity["id"] = activity["id"].strip("event_id=").split(";")[0]
+
             # data transformation by singer
             activities.append(self.transform_record(activity))
 

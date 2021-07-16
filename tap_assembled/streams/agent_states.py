@@ -45,8 +45,12 @@ class AgentStatesStream(BaseStream):
 
         xf = []
         for record in result["agent_states"]:
-            record["start_time"] = self.convert_timestamp_utc(record["start_time"])
 
+            # pre-filtering a record if the state is None - not useful. 
+            if record["state"] is None: continue 
+
+            # time conversion
+            record["start_time"] = self.convert_timestamp_utc(record["start_time"])
             record_xf = self.transform_record(record)
             record_xf["agent_id"] = agent_id
             xf.append(record_xf)
