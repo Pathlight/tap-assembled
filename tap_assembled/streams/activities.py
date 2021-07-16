@@ -31,7 +31,8 @@ class ActivitiesStream(BaseStream):
         if not date:
             date = get_config_start_date(self.config)
 
-        interval = timedelta(days=1)
+        interval_sliding = timedelta(days=1)
+        interval = timedelta(days=15) # TODO: check whether 15 days are large enough
 
         # sync incrementally - by day
         while date < datetime.now(pytz.utc):
@@ -42,7 +43,7 @@ class ActivitiesStream(BaseStream):
                 self.state, self.TABLE, "last_record", date.isoformat()
             )
             save_state(self.state)
-            date = date + interval
+            date = date + interval_sliding
 
     def get_stream_data(self, result):
 
