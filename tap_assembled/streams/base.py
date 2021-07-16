@@ -35,7 +35,6 @@ class BaseStream(base):
             with singer.metrics.record_counter(endpoint=table) as counter:
                 for obj in data:
                     singer.write_records(table, [obj])
-
-                counter.increment(len(data))
+                    counter.increment()
 
         save_state(self.state)
