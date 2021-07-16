@@ -5,6 +5,9 @@
         "agent_import_id": {
             "type": ["null", "string"]
         },
+        "agent_id": {
+            "type": ["null", "string"]
+        },
         "state": {
             "type": ["null", "string"]
         },

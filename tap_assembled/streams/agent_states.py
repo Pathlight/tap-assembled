@@ -13,7 +13,7 @@ LOGGER = singer.get_logger()
 
 class AgentStatesStream(BaseStream):
     NAME = "AgentStatesStream"
-    KEY_PROPERTIES = ["agent_import_id", "platform", "start_time"]
+    KEY_PROPERTIES = ["agent_id", "agent_import_id", "platform", "start_time"]
     API_METHOD = "GET"
     TABLE = "agent_states"
 
