@@ -1,0 +1,550 @@
+{
+    "streams": [
+        {
+            "tap_stream_id": "agents",
+            "stream": "agents",
+            "key_properties": [
+                "id"
+            ],
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "import_id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "name": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "email": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "site": {
+                        "type": [
+                            "null",
+                            "integer"
+                        ]
+                    },
+                    "channels": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "teams": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "queues": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "skills": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "metadata": [
+                {
+                    "breadcrumb": [],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "id"
+                    ],
+                    "metadata": {
+                        "inclusion": "automatic"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "import_id"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "name"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "email"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "site"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "channels"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "teams"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "queues"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "skills"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                }
+            ]
+        },
+        {
+            "tap_stream_id": "agent_states",
+            "stream": "agent_states",
+            "key_properties": [
+                "id",
+                "platform",
+                "start_time"
+            ],
+            "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                    "agent_import_id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "state": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "platform": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "start_time": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "end_time": {
+                        "type": [
+                            "null",
+                            "string"
+                        ],
+                        "format": "date-time"
+                    }
+                }
+            },
+            "metadata": [
+                {
+                    "breadcrumb": [],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "agent_import_id"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "state"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "platform"
+                    ],
+                    "metadata": {
+                        "inclusion": "automatic"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "start_time"
+                    ],
+                    "metadata": {
+                        "inclusion": "automatic"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "end_time"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                }
+            ]
+        },
+        {
+            "tap_stream_id": "activity_types",
+            "stream": "activity_types",
+            "key_properties": [
+                "id"
+            ],
+            "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                    "id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "import_id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "queue_external_ids": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "name": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "short_name": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "value": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "channels": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "productive": {
+                        "type": [
+                            "null",
+                            "boolean"
+                        ]
+                    },
+                    "timeoff": {
+                        "type": [
+                            "null",
+                            "boolean"
+                        ]
+                    },
+                    "background_color": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "font_color": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                }
+            },
+            "metadata": [
+                {
+                    "breadcrumb": [],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "id"
+                    ],
+                    "metadata": {
+                        "inclusion": "automatic"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "import_id"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "queue_external_ids"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "name"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "short_name"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "value"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "channels"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "productive"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "timeoff"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "background_color"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "font_color"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                }
+            ]
+        },
+        {
+            "tap_stream_id": "activities",
+            "stream": "activities",
+            "key_properties": [
+                "id",
+                "agent_id"
+            ],
+            "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                    "id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "agent_id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "type_id": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "description": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "start_time": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "end_time": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "metadata": [
+                {
+                    "breadcrumb": [],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "id"
+                    ],
+                    "metadata": {
+                        "inclusion": "automatic"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "agent_id"
+                    ],
+                    "metadata": {
+                        "inclusion": "automatic"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "type_id"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "description"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "start_time"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                },
+                {
+                    "breadcrumb": [
+                        "properties",
+                        "end_time"
+                    ],
+                    "metadata": {
+                        "inclusion": "available"
+                    }
+                }
+            ]
+        }
+    ]
+}

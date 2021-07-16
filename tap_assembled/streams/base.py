@@ -21,7 +21,7 @@ class BaseStream(base):
     def convert_timestamp_utc(self, ts):
         return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(ts))
 
-    def sync(self):
+    def sync_data(self):
         table = self.TABLE
 
         LOGGER.info(f"tap-assembled: syncing data for entity {table}")

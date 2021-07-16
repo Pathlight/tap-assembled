@@ -21,7 +21,7 @@ class AgentStatesStream(BaseStream):
     def api_path(self):
         return "/agents/{agent_id}/state"
 
-    def sync(self):
+    def sync_data(self):
         table = self.TABLE
 
         LOGGER.info(f"tap-assembled: syncing data for entity {table}")

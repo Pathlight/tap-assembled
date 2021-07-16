@@ -5,9 +5,9 @@ from tap_assembled.streams.activity_types import ActivityTypesStream
 
 AVAILABLE_STREAMS = [
     AgentsStream,
-    AgentStatesStream,
     ActivityTypesStream,
     ActivitiesStream,
+    AgentStatesStream,
 ]
 
 __all__ = [s.NAME for s in AVAILABLE_STREAMS]

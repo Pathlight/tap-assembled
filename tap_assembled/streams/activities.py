@@ -21,7 +21,7 @@ class ActivitiesStream(BaseStream):
         return "/activities"
 
     # activity sync over time period - incremental
-    def sync(self):
+    def sync_data(self):
         table = self.TABLE
 
         LOGGER.info(f"tap-assembled: syncing data for entity {table}")

@@ -11,6 +11,7 @@ LOGGER = singer.get_logger()
 
 
 class AssembledRunner(tap_framework.Runner):
+    
     def do_sync(self):
         LOGGER.info("tap-assembled: starting sync...")
 
@@ -37,7 +38,7 @@ class AssembledRunner(tap_framework.Runner):
                 raise e
 
         save_state(self.state)
-
+    
 
 @utils.handle_top_exception(LOGGER)
 def main():
