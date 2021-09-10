@@ -12,7 +12,7 @@ LOGGER = singer.get_logger()
 
 class ActivitiesStream(BaseStream):
     NAME = "ActivitiesStream"
-    KEY_PROPERTIES = ["id", "agent_id"]
+    KEY_PROPERTIES = ["id", "agent_id", "type_id"]
     API_METHOD = "GET"
     TABLE = "activities"
 
@@ -32,7 +32,7 @@ class ActivitiesStream(BaseStream):
             date = get_config_start_date(self.config)
 
         interval_sliding = timedelta(days=1)
-        interval = timedelta(days=15) # TODO: check whether 15 days are large enough
+        interval = timedelta(days=7)
 
         # sync incrementally - by day
         while date < datetime.now(pytz.utc):
