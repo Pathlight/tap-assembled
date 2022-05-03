@@ -44,7 +44,8 @@ class AgentStatesStream(BaseStream):
             return []
 
         xf = []
-        for record in result["agent_states"]:
+        states = result.get("agent_states") or []
+        for record in states:
 
             # pre-filtering a record if the state is None - not useful. 
             if record["state"] is None: continue 
