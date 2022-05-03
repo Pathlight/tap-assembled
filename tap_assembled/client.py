@@ -22,8 +22,11 @@ class AssembledClient:
 
         LOGGER.info("Making {} request to {} ({})".format(method, url, params))
 
+        headers = {"API-Version": "2019-06-20"}
+
+
         response = requests.request(
-            method, url, auth=(self.config["api_key"], ""), params=params, json=body
+            method, url, headers=headers, auth=(self.config["api_key"], ""), params=params, json=body
         )
 
         if response.status_code == 429:
