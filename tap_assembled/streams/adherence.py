@@ -33,7 +33,6 @@ class AdherenceStream(BaseStream):
 		LOGGER.info(f"tap-assembled: retrieving report id {report_id}")
 		result = self.client.make_request(url, "GET", params=params)
 		status = result['status']
-		print(status)
 		attempts_count = 0
 
 		while ("in_progress" == status) & (attempts_count < self.MAX_REPORT_ATTEMPTS): 
@@ -144,10 +143,9 @@ class AdherenceStream(BaseStream):
 			date = get_config_start_date(self.config)
 
 		interval_sliding = timedelta(days=1)
-		interval = timedelta(days=7)
+		interval = timedelta(days=1)
 
 		# sync incrementally - by day
-		#TODO:  don't sync for end dates in the future
 		while pytz.utc.localize(date) < datetime.now(pytz.utc):
 			self.sync_for_period(date, interval)
 
