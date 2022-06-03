@@ -35,7 +35,7 @@ class ActivitiesStream(BaseStream):
         interval = timedelta(days=7)
 
         # sync incrementally - by day
-        while date < datetime.now(pytz.utc):
+        while pytz.utc.localize(date) < datetime.now(pytz.utc):
             self.sync_for_period(date, interval)
 
             # keep bookmark updated
