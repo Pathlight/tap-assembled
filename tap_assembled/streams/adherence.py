@@ -18,37 +18,46 @@ class AdherenceStream(BaseStream):
 	PHONE = "phone"
 	EMAIL = "email"
 	CHANNEL_TYPES = [PHONE, EMAIL]
+	LIMIT = 500
 	
 	REPORT_GENERATION_PAUSE_IN_SECS = 10
+	MAX_REPORT_ATTEMPTS = 6
 
 	@property
 	def api_path(self):
 		return "/reports/adherence"
 
-	def get_report(self, result):
+	def get_report_with_retries(self, result, report_id, params):		
+		url = f"{self.client.base_url}/reports/{report_id}"
+		
+		LOGGER.info(f"tap-assembled: retrieving report id {report_id}")
+		result = self.client.make_request(url, "GET", params=params)
+		status = result['status']
+		print(status)
+		attempts_count = 0
+
+		while ("in_progress" == status) & (attempts_count < self.MAX_REPORT_ATTEMPTS): 
+			time.sleep(self.REPORT_GENERATION_PAUSE_IN_SECS)
+			LOGGER.info(f"tap-assembled: re-trying report id {report_id}")
+			result = self.client.make_request(url, "GET", params=params)
+			status = result['status']
+			attempts_count += 1
+			
+		if ("in_progress" == status):
+			LOGGER.error(f"tap-assembled: timed out while retrieving report id {report_id}")
+			
+		return result
+			
+	def get_report(self, result, offset):
 		# retrieve the report id from the results and use it to retrieve the associated metrics
 		if not result or "report_id" not in result:
 			return []
 		
 		report_id = result.get("report_id")
-		params = {"limit": 500} # default value; TODO: consider increasing or handle pagination
-		url = f"{self.client.base_url}/reports/{report_id}"
 		
-		time.sleep(self.REPORT_GENERATION_PAUSE_IN_SECS)
-		LOGGER.info(f"tap-assembled: retrieving report id {report_id}")
-		result = self.client.make_request(url, "GET", params=params)
-		status = result['status']
-
-		while ("in_progress" == status): 
-			# TODO:  eventually need to fail this process
-			time.sleep(self.REPORT_GENERATION_PAUSE_IN_SECS)
-			LOGGER.info(f"tap-assembled: re-trying report id {report_id}")
-			result = self.client.make_request(url, "GET", params=params)
-			status = result['status']
-			
-		#LOGGER.info("report contents:")
-		#LOGGER.info(result['status'])
-		LOGGER.info(result['total_metric_count'])
+		params = {"limit": self.LIMIT, "offset":offset} 
+		result = self.get_report_with_retries(result, report_id, params)	
+		
 		return result
 	
 	def get_stream_data(self, result, channel):
@@ -68,18 +77,32 @@ class AdherenceStream(BaseStream):
 			
 			# add additional fields
 			metric["channel"] = channel
+			
+			# and removed the unused key to avoid warnings
+			del(metric["attributes"])
 
 			# data transformation by singer
-			LOGGER.info(metric) # debug
 			metrics.append(self.transform_record(metric))
 
 		return metrics
+	
+	def get_and_save_report_page(self, result, table, channel, offset):
+		report = self.get_report(result, offset) 
+		data = self.get_stream_data(report, channel)
+
+		if len(data) > 0:
+			with singer.metrics.record_counter(endpoint=table) as counter:
+				for obj in data:
+					singer.write_records(table, [obj])
+				counter.increment(len(data))
+		return report	
 
 	def sync_for_period_and_channel(self, date, interval, channel):
 		table = self.TABLE
 
 		date_from = round(self.convert_utc_timestamp(date))
 		date_to = round(self.convert_utc_timestamp(date + interval))
+		LOGGER.info(date_to)
 
 		LOGGER.info(
 			f"tap-assembled: syncing {table} table for {channel} from {date.isoformat()} to {(date+interval).isoformat()}"
@@ -88,16 +111,22 @@ class AdherenceStream(BaseStream):
 		body = {"start_time": date_from, "end_time": date_to, "interval": self.INTERVAL, "channel": channel}
 		url = f"{self.client.base_url}{self.api_path}"
 
-		result = self.client.make_request(url, "POST", body=body)
-		report = self.get_report(result) 
-		data = self.get_stream_data(report, channel)
-
-		if len(data) > 0:
-			with singer.metrics.record_counter(endpoint=table) as counter:
-				for obj in data:
-					singer.write_records(table, [obj])
-				counter.increment(len(data))
-
+		result = self.client.make_request(url, "POST", body=body)		
+		offset = 0
+		report = self.get_and_save_report_page(result, table, channel, offset)
+		
+		if report:
+			total = report['total_metric_count']
+			count = len(report['metrics'])
+			LOGGER.debug(f"tap-assembled: processing {total} metrics")
+			LOGGER.debug(f"tap-assembled: this batch had {count} metrics")	
+			while (total > (offset + count)):	
+				offset += count
+				report = self.get_and_save_report_page(result, table, channel, offset)
+				count = len(report['metrics'])
+				LOGGER.debug(f"tap-assembled: processing {total} metrics")
+				LOGGER.debug(f"tap-assembled: this batch had {count} metrics")	
+			LOGGER.info(f"tap-assembled: processed {total} metrics")
 
 	def sync_for_period(self, date, interval):
 		for channel in self.CHANNEL_TYPES:
@@ -118,6 +147,7 @@ class AdherenceStream(BaseStream):
 		interval = timedelta(days=7)
 
 		# sync incrementally - by day
+		#TODO:  don't sync for end dates in the future
 		while pytz.utc.localize(date) < datetime.now(pytz.utc):
 			self.sync_for_period(date, interval)
 
