@@ -13,6 +13,7 @@ LOGGER = singer.get_logger()
 
 class AdherenceStream(BaseStream):
 	NAME = "AdherenceStream"
+	KEY_PROPERTIES = []
 	TABLE = "adherence"
 	INTERVAL = "24h" # assumes a time range of > 1 day
 	PHONE = "phone"
@@ -131,7 +132,7 @@ class AdherenceStream(BaseStream):
 		for channel in self.CHANNEL_TYPES:
 			self.sync_for_period_and_channel(date, interval, channel)
 			
-	# activity sync over time period - incremental
+	# adherence sync over time period - incremental
 	def sync_data(self):
 		table = self.TABLE
 
@@ -146,7 +147,7 @@ class AdherenceStream(BaseStream):
 		interval = timedelta(days=1)
 
 		# sync incrementally - by day
-		while pytz.utc.localize(date) < datetime.now(pytz.utc):
+		while date < datetime.now(pytz.utc):
 			self.sync_for_period(date, interval)
 
 			# keep bookmark updated
