@@ -6,7 +6,7 @@
             "type": ["null", "string"]
         },
         "value": {
-            "type": ["null", "string"]
+            "type": ["null", "number"]
         },
         "agent_id": {
             "type": ["null", "string"]
