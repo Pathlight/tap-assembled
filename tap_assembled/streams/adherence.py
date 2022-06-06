@@ -146,8 +146,8 @@ class AdherenceStream(BaseStream):
 		interval_sliding = timedelta(days=1)
 		interval = timedelta(days=1)
 
-		# sync incrementally - by day
-		while date < datetime.now(pytz.utc):
+		# sync incrementally - by day, up though yesterday.  Don't pull today's data yet because it is still being generated.
+		while date < (datetime.now(pytz.utc) - interval):
 			self.sync_for_period(date, interval)
 
 			# keep bookmark updated
