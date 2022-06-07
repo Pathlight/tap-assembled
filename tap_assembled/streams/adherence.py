@@ -147,7 +147,7 @@ class AdherenceStream(BaseStream):
 		interval = timedelta(days=1)
 
 		# sync incrementally - by day, up though yesterday.  Don't pull today's data yet because it is still being generated.
-		while date < (datetime.now(pytz.utc) - interval):
+		while date.date() < (datetime.now(pytz.utc) - interval).date():
 			self.sync_for_period(date, interval)
 
 			# keep bookmark updated
