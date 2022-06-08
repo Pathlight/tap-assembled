@@ -102,11 +102,8 @@ class AdherenceStream(BaseStream):
 
 		date_from = round(self.convert_utc_timestamp(date))
 		date_to = round(self.convert_utc_timestamp(date + interval))
-		LOGGER.info(date_to)
 
-		LOGGER.info(
-			f"tap-assembled: syncing {table} table for {channel} from {date.isoformat()} to {(date+interval).isoformat()}"
-		)
+		LOGGER.info(f"tap-assembled: syncing {table} table for {channel} from {date.isoformat()} to {(date + interval).isoformat()}")
 		
 		body = {"start_time": date_from, "end_time": date_to, "interval": self.INTERVAL, "channel": channel}
 		url = f"{self.client.base_url}{self.api_path}"
@@ -147,12 +144,16 @@ class AdherenceStream(BaseStream):
 		interval = timedelta(days=1)
 
 		# sync incrementally - by day, up though yesterday.  Don't pull today's data yet because it is still being generated.
+		LOGGER.info(f"tap-assembled: comparing {date.date()} to {(datetime.now(pytz.utc) - interval).date()}")
+
 		while date.date() < (datetime.now(pytz.utc) - interval).date():
+			LOGGER.info(f"proceeding with sync for {date} and {interval}")
 			self.sync_for_period(date, interval)
 
 			# keep bookmark updated
+			LOGGER.info(f"updating last_record to {(date + interval).isoformat()}")
 			self.state = incorporate(
-				self.state, self.TABLE, "last_record", date.isoformat()
+				self.state, self.TABLE, "last_record", (date + interval).isoformat()
 			)
 			save_state(self.state)
 			date = date + interval_sliding
