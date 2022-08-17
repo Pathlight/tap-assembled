@@ -143,10 +143,12 @@ class AdherenceStream(BaseStream):
 		interval_sliding = timedelta(days=1)
 		interval = timedelta(days=1)
 
-		# sync incrementally - by day, up though yesterday.  Don't pull today's data yet because it is still being generated.
-		LOGGER.info(f"tap-assembled: comparing {date.date()} to {(datetime.now(pytz.utc) - interval).date()}")
+		# Sync incrementally - by day, up through yesterday. Don't pull today's data yet because it is still being generated.
+		date_format = '%Y-%m-%d %H:%M:%S.%z'
+		end_window = datetime.now(pytz.utc) - interval
+		LOGGER.info(f"tap-assembled: comparing {date.strftime(date_format)} to {end_window.strftime(date_format)}")
 
-		while date.date() < (datetime.now(pytz.utc) - interval).date():
+		while date < (datetime.now(pytz.utc) - interval):
 			LOGGER.info(f"proceeding with sync for {date} and {interval}")
 			self.sync_for_period(date, interval)
 
