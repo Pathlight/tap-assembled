@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="tap-assembled",
-    version="0.1.8",
+    version="0.1.9",
     description="Singer.io tap for extracting data from the Assembled API",
     author="Pathlight",
     url="http://pathlight.com",
