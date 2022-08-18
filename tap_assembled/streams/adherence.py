@@ -148,7 +148,7 @@ class AdherenceStream(BaseStream):
 		end_window = datetime.now(pytz.utc) - interval
 		LOGGER.info(f"tap-assembled: comparing {date.strftime(date_format)} to {end_window.strftime(date_format)}")
 
-		while date < (datetime.now(pytz.utc) - interval):
+		while date < end_window:
 			LOGGER.info(f"proceeding with sync for {date} and {interval}")
 			self.sync_for_period(date, interval)
 
