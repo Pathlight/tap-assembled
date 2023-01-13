@@ -114,7 +114,7 @@ class AdherenceStream(BaseStream):
 		
 		if report:
 			total = report['total_metric_count']
-			count = len(report.get('metrics')) if report.get('metrics') else 0
+			count = len(report.get('metrics', []))
 			LOGGER.debug(f"tap-assembled: processing {total} metrics")
 			LOGGER.debug(f"tap-assembled: this batch had {count} metrics")	
 			while (total > (offset + count)):	
